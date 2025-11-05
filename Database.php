@@ -3,17 +3,13 @@ class Database
 {
     public $connection;
 
-    public function __construct($config)
+    public function __construct($config, $username = 'root', $password = '')
     {
-        $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
+        $dsn = 'mysql:' . http_build_query($config, '', ';');
 
-        try {
-            $this->connection = new PDO($dsn, 'root', '', [
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-            ]);
-        } catch (PDOException $e) {
-            die('Database connection failed: ' . $e->getMessage());
-        }
+        $this->connection = new PDO($dsn, $username, $password), [
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
     }
 
     public function query($query)
@@ -21,6 +17,5 @@ class Database
         $statement = $this->connection->prepare($query);
         $statement->execute();
 
-        return $statement;
     }
 }
