@@ -5,22 +5,24 @@ class Database
 
     public function __construct($config, $username = 'root', $password = '')
     {
-        // Создавање на DSN за MySQL
         $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset={$config['charset']}";
 
-        // Креирање на PDO конекција со опции
         $options = [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ];
 
-        $this->connection = new PDO($dsn, $username, $password, $options);
+        try {
+            $this->connection = new PDO($dsn, $username, $password, $options);
+        } catch (PDOException $e) {
+            die("❌ Database connection failed: " . $e->getMessage());
+        }
     }
 
-    public function query($query)
+    public function query($query, $params = [])
     {
         $statement = $this->connection->prepare($query);
-        $statement->execute();
+        $statement->execute($params);
         return $statement;
     }
 }
