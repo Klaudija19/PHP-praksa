@@ -4,6 +4,7 @@ $config = require('config.php');
 $db = new Database($config['database']);
 
 $heading = 'Note';
+$currentUserId = 1;
 
 // Земи го ID од URL, ако не постои - постави 1
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 1;
@@ -17,7 +18,8 @@ if(! $note) {
     abort();
 }
 
-if($note['user_id'] !== 1) {
-    abort(403);
+
+if($note['user_id'] !== $currentUserId) {
+    abort(Response::FORBIDDEN);
 }
 require __DIR__ . '/../views/note.view.php';
