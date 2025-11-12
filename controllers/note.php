@@ -12,14 +12,7 @@ $id = isset($_GET['id']) ? (int) $_GET['id'] : 1;
 // Земи ја белешката со соодветното ID
 $note = $db->query('SELECT * FROM notes WHERE id = :id',
     ['id' => $id
-    ])->fetch();
+    ])->findOrFail();
+authorize($note['user_id']=== $currentUserId);
 
-if(! $note) {
-    abort();
-}
-
-
-if($note['user_id'] !== $currentUserId) {
-    abort(Response::FORBIDDEN);
-}
 require __DIR__ . '/../views/note.view.php';

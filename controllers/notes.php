@@ -1,13 +1,14 @@
 <?php
 
-$config = require ('config.php');
+$config = require('config.php');
 $db = new Database($config['database']);
 
 $heading = 'My Notes';
 
-$notes = $db->query('select * from notes where user_id = 1')->fetchAll();
+// Прво правиме query()
+$statement = $db->query('SELECT * FROM notes WHERE user_id = 1');
 
-
-
+// Потоа ги земаме сите резултати
+$notes = $statement->get();
 
 require __DIR__ . '/../views/notes.view.php';
