@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../Validator.php'; // исправена патека
 $config = require('config.php');
 $db = new Database($config['database']);
 
@@ -8,27 +8,26 @@ $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $body = trim($_POST['body']);
+    $validator = new Validator();
 
-    // Проверка дали е празна
-    if (empty($body)) {
-        $errors['body'] = 'A body is required';
+    if ($validator->string($body) || !$body) {
+        $errors['body'] = 'A body of no more than 1,000 characters is required';
+    } elseif (strlen($body) > 1000) {
+        $errors['body'] = 'A body of no more than 1,000 characters is required';
     }
-    // Проверка дали е подолга од 1000 карактери
-    elseif (strlen($body) > 1000) {
-        $errors['body'] = 'The body can not be more than 1,000 characters';
-    }
-    else {
-        // Додавање во базата ако е валидно
+
+    if (empty($errors)) {
         $db->query('INSERT INTO notes(body, user_id) VALUES(:body, :user_id)', [
             'body' => $body,
             'user_id' => 1
         ]);
 
-        // Redirect кон notes страница после успешно додавање
-        header('Location: notes.php');
+        header('Location: /notes'); // router патеката за листа на белешки
         exit;
     }
 }
 
 require 'views/note-create.view.php';
+
+
 

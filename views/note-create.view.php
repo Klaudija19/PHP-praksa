@@ -6,7 +6,6 @@
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <form method="POST">
             <div class="space-y-12">
-
                 <!-- About дел -->
                 <div class="border-b border-gray-900/10 pb-12">
                     <h2 class="text-base/7 font-semibold text-gray-900">Create Note</h2>
@@ -23,18 +22,14 @@
                                         class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900
                                            outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400
                                            focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600
-                                           sm:text-sm/6"><?= htmlspecialchars($old['body'] ?? '') ?></textarea>
+                                           sm:text-sm/6"><?= isset($_POST['body']) ? htmlspecialchars($_POST['body']) : '' ?></textarea>
 
-                                <!-- Custom error под textarea -->
-                                <?php if (!empty($errors['body'])): ?>
-                                    <p class="text-red-600 text-sm mt-1">
-                                        <?= $errors['body'] ?>
-                                    </p>
+                                <?php if (isset($errors['body'])) : ?>
+                                    <p class="text-red-500 text-xs mt-2"><?= $errors['body'] ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -45,7 +40,6 @@
                     Save
                 </button>
             </div>
-
         </form>
     </div>
 </main>
