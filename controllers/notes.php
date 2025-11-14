@@ -9,6 +9,6 @@ $heading = 'My Notes';
 $statement = $db->query('SELECT * FROM notes WHERE user_id = 1');
 
 // Потоа ги земаме сите резултати
-$notes = $statement->get();
+$notes = $statement->fetchAll();
 
 require __DIR__ . '/../views/notes.view.php';
