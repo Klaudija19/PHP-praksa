@@ -1,22 +1,15 @@
 <?php
 
-$routes = require('routes.php');
-
-function routeToController($uri, $routes) {
-    if (array_key_exists($uri, $routes)) {
-        require $routes[$uri];
-    }else{
-        abort();
+function routeToController($path, $routes) {
+    if (isset($routes[$path])) {
+        require __DIR__ . '/' . $routes[$path];
+    } else {
+        http_response_code(404);
+        require __DIR__ . '/views/404.php';
     }
 }
 
-function abort($code = 404) {
-    http_response_code($code);
+$routes = require __DIR__ . '/routes.php';
 
-    require "views/{$code}.php";
-
-    die();
-}
-
-$uri = parse_url($_SERVER['REQUEST_URI']) ['path'];
-routeToController($uri, $routes);
+$requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+routeToController($requestPath, $routes);

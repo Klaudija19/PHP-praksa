@@ -1,12 +1,14 @@
-<?php require('partials/head.php') ?>
-<?php require('partials/nav.php') ?>
-<?php require('partials/banner.php') ?>
+<?php
+require_once __DIR__ . '/../partials/head.php';
+require_once __DIR__ . '/../partials/nav.php';
+require_once __DIR__ . '/../partials/banner.php';
+?>
 
 <main>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+
         <form method="POST">
             <div class="space-y-12">
-                <!-- About дел -->
                 <div class="border-b border-gray-900/10 pb-12">
                     <h2 class="text-base/7 font-semibold text-gray-900">Create Note</h2>
 
@@ -33,7 +35,6 @@
                 </div>
             </div>
 
-            <!-- Save копче -->
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <button type="submit"
                         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500">
@@ -41,10 +42,13 @@
                 </button>
             </div>
         </form>
+
     </div>
 </main>
 
-<?php require('partials/footer.php') ?>
+<?php
+require_once __DIR__ . '/../partials/footer.php';
+?>
 
 
 

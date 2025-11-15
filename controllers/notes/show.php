@@ -1,6 +1,6 @@
 <?php
 
-$config = require('config.php');
+$config = require __DIR__ . '/../../config.php';
 $db = new Database($config['database']);
 
 $heading = 'Note';
@@ -13,6 +13,6 @@ $id = isset($_GET['id']) ? (int) $_GET['id'] : 1;
 $note = $db->query('SELECT * FROM notes WHERE id = :id',
     ['id' => $id
     ])->findOrFail();
-authorize($note['user_id']=== $currentUserId);
+authorize($note['user_id'] === $currentUserId);
 
-require __DIR__ . '/../views/note.view.php';
+require __DIR__ . '/../../views/notes/show.view.php';

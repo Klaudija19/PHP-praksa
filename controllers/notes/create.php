@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/../Validator.php'; // исправена патека
-$config = require('config.php');
+require_once __DIR__ . '/../../Validator.php';
+
+$config = require __DIR__ . '/../../config.php';
 $db = new Database($config['database']);
 
 $heading = 'Create Note';
@@ -27,7 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require 'views/note-create.view.php';
+require_once __DIR__ . '/../../views/notes/create.view.php';
+
+
 
 
 
