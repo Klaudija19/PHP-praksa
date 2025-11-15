@@ -1,5 +1,8 @@
 <?php
 
+use core\Container;
+use core\App;
+
 // Define base path constant (normalize path separators for Windows compatibility)
 define('BASE_PATH', str_replace('\\', '/', __DIR__ . '/..'));
 
@@ -15,4 +18,22 @@ spl_autoload_register(function ($class) {
         require $file;
     }
 });
+
+// Initialize container
+$container = new Container();
+
+// Load configuration
+$config = require basePath('config.php');
+
+// Bind services to container
+$container->bind('core\Database', function () use ($config) {
+    return new \core\Database($config['database']);
+});
+
+$container->bind('core\Validator', function () {
+    return new \core\Validator();
+});
+
+// Set container in App class
+App::setContainer($container);
 

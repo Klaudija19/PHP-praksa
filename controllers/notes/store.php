@@ -1,15 +1,13 @@
 <?php
 
-use core\Database;
-use core\Validator;
+use core\App;
 
-$config = require basePath('config.php');
-$db = new Database($config['database']);
+$db = App::resolve('core\Database');
+$validator = App::resolve('core\Validator');
 
 $errors = [];
 
 $body = trim($_POST['body']);
-$validator = new Validator();
 
 if ($validator->string($body) || !$body) {
     $errors['body'] = 'A body of no more than 1,000 characters is required';
@@ -35,4 +33,5 @@ view('notes/create.view.php', [
     'heading' => $heading,
     'errors' => $errors
 ]);
+
 
