@@ -9,9 +9,8 @@ require basePath('views/partials/banner.php');
     <h1><?= htmlspecialchars($note['body'] ?? 'Note not found') ?></h1>
 
     <!-- Delete form -->
-    <form method="POST">
+    <form method="POST" action="/note/<?= $note['id'] ?>">
         <input type="hidden" name="_method" value="DELETE">
-        <input type="hidden" name="id" value="<?= $note['id'] ?>">
         <button type="submit" class="text-red-500 text-sm mt-2">Delete</button>
     </form>
 

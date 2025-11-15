@@ -7,7 +7,8 @@ $db = new Database($config['database']);
 
 $currentUserId = 1;
 
-$id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+// Get id from URL parameters
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
 // Get the note to verify ownership
 $note = $db->query('SELECT * FROM notes WHERE id = :id', [
@@ -25,4 +26,5 @@ $db->query('DELETE FROM notes WHERE id = :id', [
 // Redirect after successful deletion
 header('Location: /notes');
 exit;
+
 

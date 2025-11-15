@@ -11,7 +11,7 @@ require basePath('views/partials/banner.php');
         <ul class="mb-6">
             <?php foreach ($notes as $note) : ?>
                 <li>
-                    <a href="/note?id=<?= $note['id'] ?>" class="text-blue-500 hover:underline">
+                    <a href="/note/<?= $note['id'] ?>" class="text-blue-500 hover:underline">
                         <?= htmlspecialchars($note['body']) ?>
                     </a>
                 </li>
