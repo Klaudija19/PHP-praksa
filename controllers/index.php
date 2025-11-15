@@ -1,10 +1,8 @@
 <?php
 
-
-
 $heading = "Home";
 
-
-
-require __DIR__ . '/../views/index.view.php';
+view('index.view.php', [
+    'heading' => $heading
+]);
 

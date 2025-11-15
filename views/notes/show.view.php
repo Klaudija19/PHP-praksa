@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../partials/head.php';
-require_once __DIR__ . '/../partials/nav.php';
-require_once __DIR__ . '/../partials/banner.php';
+require basePath('views/partials/head.php');
+require basePath('views/partials/nav.php');
+require basePath('views/partials/banner.php');
 ?>
 
 
@@ -15,5 +15,5 @@ require_once __DIR__ . '/../partials/banner.php';
 </main>
 
 <?php
-require_once __DIR__ . '/../partials/footer.php';
+require basePath('views/partials/footer.php');
 ?>

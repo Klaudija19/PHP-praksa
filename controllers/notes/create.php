@@ -1,7 +1,6 @@
 <?php
-require_once __DIR__ . '/../../Validator.php';
 
-$config = require __DIR__ . '/../../config.php';
+$config = require basePath('config.php');
 $db = new Database($config['database']);
 
 $heading = 'Create Note';
@@ -23,12 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'user_id' => 1
         ]);
 
-        header('Location: /notes'); // router патеката за листа на белешки
+        header('Location: /notes');
         exit;
     }
 }
 
-require_once __DIR__ . '/../../views/notes/create.view.php';
+view('notes/create.view.php', [
+    'heading' => $heading,
+    'errors' => $errors
+]);
 
 
 

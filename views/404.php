@@ -1,5 +1,5 @@
-<?php require __DIR__ . '/partials/head.php' ?>
-<?php require __DIR__ . '/partials/nav.php' ?>
+<?php require basePath('views/partials/head.php') ?>
+<?php require basePath('views/partials/nav.php') ?>
 
 
 <main>
@@ -12,7 +12,7 @@
     </div>
 </main>
 
-<?php require __DIR__ . '/partials/footer.php' ?>
+<?php require basePath('views/partials/footer.php') ?>
 
 
 <!-- JavaScript за dropdown -->

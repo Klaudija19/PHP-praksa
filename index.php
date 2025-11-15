@@ -1,9 +1,7 @@
 <?php
 
-require 'functions.php';
-require 'Database.php';
-require 'Response.php';
-require 'router.php';
+require __DIR__ . '/core/bootstrap.php';
+require basePath('router.php');
 
 
 
