@@ -29,10 +29,10 @@ function urlIs($value) {
     return $_SERVER['REQUEST_URI'] === $value;
 }
 
-function abort($code = Response::NOT_FOUND) {
+function abort($code = \core\Response::NOT_FOUND) {
     http_response_code($code);
     
-    if ($code === Response::FORBIDDEN) {
+    if ($code === \core\Response::FORBIDDEN) {
         require basePath('views/403.php');
     } else {
         require basePath('views/404.php');
@@ -41,7 +41,7 @@ function abort($code = Response::NOT_FOUND) {
     die();
 }
 
-function authorize($condition, $status = Response::FORBIDDEN) {
+function authorize($condition, $status = \core\Response::FORBIDDEN) {
     if (! $condition){
         abort($status);
     }

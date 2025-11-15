@@ -1,5 +1,7 @@
 <?php
 
+namespace core;
+
 class Validator
 {
     public function string($value)
@@ -13,4 +15,5 @@ class Validator
         return strlen(trim($value)) > $max;
     }
 }
+
 
