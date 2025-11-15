@@ -1,15 +1,15 @@
 <?php
 
-function routeToController($path, $routes) {
-    if (isset($routes[$path])) {
-        require basePath($routes[$path]);
-    } else {
-        http_response_code(404);
-        require basePath('views/404.php');
-    }
-}
+use core\Router;
 
-$routes = require basePath('routes.php');
+// Get the router instance from routes.php
+$router = require basePath('routes.php');
 
+// Get the request URI
 $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-routeToController($requestPath, $routes);
+
+// Handle method override for DELETE, PATCH, PUT (since HTML forms only support GET and POST)
+$method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+
+// Route the request
+$router->route($requestPath, $method);
