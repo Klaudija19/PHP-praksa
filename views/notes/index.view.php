@@ -1,4 +1,9 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+
 require basePath('views/partials/head.php');
 require basePath('views/partials/nav.php');
 require basePath('views/partials/banner.php');
@@ -8,6 +13,21 @@ require basePath('views/partials/banner.php');
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 
         <h1 class="text-2xl font-bold mb-6">Notes</h1>
+
+        <!-- Flash Messages -->
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="bg-green-200 text-green-800 p-3 rounded mb-4">
+                <?= $_SESSION['success']; ?>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="bg-red-200 text-red-800 p-3 rounded mb-4">
+                <?= $_SESSION['error']; ?>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
 
         <!-- Листа на белешки -->
         <ul class="space-y-4 mb-6">

@@ -1,4 +1,5 @@
 <?php
+session_start(); // секогаш прво на почетокот
 
 use core\App;
 
@@ -7,27 +8,31 @@ $validator = App::resolve('core\Validator');
 
 $errors = [];
 
-$body = trim($_POST['body']);
+$body = trim($_POST['body'] ?? '');
 
+// Валидација
 if ($validator->string($body) || !$body) {
-    $errors['body'] = 'A body of no more than 1,000 characters is required';
+    $errors['body'] = 'Поле за белешка до 1,000 карактери е задолжително.';
 } elseif (strlen($body) > 1000) {
-    $errors['body'] = 'A body of no more than 1,000 characters is required';
+    $errors['body'] = 'Поле за белешка до 1,000 карактери е задолжително.';
 }
 
 if (empty($errors)) {
-    // Insert the note into the database
+    // Insert белешка во базата
     $db->query('INSERT INTO notes(body, user_id) VALUES(:body, :user_id)', [
         'body' => $body,
         'user_id' => 1
     ]);
 
-    // Redirect to the notes list
+    // Додај flash message
+    $_SESSION['success'] = "Белешката е успешно додадена.";
+
+    // Redirect кон листата на белешки
     header('Location: /notes');
     exit;
 }
 
-// If validation fails, return the form view with errors
+// Ако валидацијата не успее, прикажи create view со errors
 $heading = 'Create Note';
 view('notes/create.view.php', [
     'heading' => $heading,

@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/../../core/Database.php'; // точна патека
+session_start(); // Секогаш прво на почетокот
+
+require_once __DIR__ . '/../../core/Database.php'; // Точна патека
 
 use core\Database;
 
@@ -15,24 +17,37 @@ $db = new Database($config);
 
 // Обработка на POST барање
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'];
-    $body = $_POST['body'];
+    $id = $_POST['id'] ?? null;
+    $body = $_POST['body'] ?? '';
+
+    if (!$id) {
+        $_SESSION['error'] = "Не е пронајдено ID на белешката.";
+        header('Location: /notes');
+        exit;
+    }
 
     // Update query
     $sql = "UPDATE notes SET body = :body WHERE id = :id";
-    $stmt = $db->connection->prepare($sql); // користиме ->connection од класата
+    $stmt = $db->connection->prepare($sql);
     $stmt->bindParam(':body', $body);
     $stmt->bindParam(':id', $id);
 
     if ($stmt->execute()) {
+        // Додај flash message
+        $_SESSION['success'] = "Белешката е успешно ажурирана.";
         header('Location: /notes');
         exit;
     } else {
-        echo "Грешка при ажурирање на белешката.";
+        $_SESSION['error'] = "Грешка при ажурирање на белешката.";
+        header('Location: /notes');
+        exit;
     }
 } else {
-    echo "Неправилно барање.";
+    $_SESSION['error'] = "Неправилно барање.";
+    header('Location: /notes');
+    exit;
 }
+
 
 
 

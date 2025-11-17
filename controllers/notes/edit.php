@@ -1,4 +1,6 @@
 <?php
+session_start(); // секогаш прво на почетокот
+
 
 use core\App;
 
