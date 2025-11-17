@@ -13,11 +13,16 @@ $router->get('/note/edit/{id}', 'controllers/notes/edit.php');
 $router->get('/notes/create', 'controllers/notes/create.php');
 $router->get('/contact', 'controllers/contact.php');
 
+// Registration GET route
+$router->get('/registration/create', 'controllers/registration/create.php');
+
 // POST routes
 $router->post('/notes', 'controllers/notes/store.php');
 $router->post('/update', 'controllers/notes/update.php');
 $router->post('/notes/delete', 'controllers/notes/delete.php');
 
+// Registration POST route
+$router->post('/registration/create', 'controllers/registration/create.php');
 
 // PATCH routes
 $router->patch('/note/{id}', 'controllers/notes/update.php');
@@ -26,3 +31,4 @@ $router->patch('/note/{id}', 'controllers/notes/update.php');
 $router->delete('/note/{id}', 'controllers/notes/destroy.php');
 
 return $router;
+

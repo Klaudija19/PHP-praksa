@@ -1,18 +1,17 @@
-<nav class="bg-gray-800"...>
+<nav class="bg-gray-800">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
                 <div class="shrink-0">
-                    <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="size-8" />
+                    <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-8" />
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="/" class="<?= urlIs('/') ? 'bg-gray-900 text-white': 'text-gray-300' ?>hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
-                        <a href="/about" class="<?= urlIs('/about.php') ? 'bg-gray-900 text-white': 'text-gray-300' ?>hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="/notes" class="<?= urlIs('/index.php') ? 'bg-gray-900 text-white': 'text-gray-300' ?>hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Notes</a>
-                        <a href="/contact" class="<?= urlIs('contact.php') ? 'bg-gray-900 text-white': 'text-gray-300' ?>text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-
-
+                        <a href="/" class="<?= urlIs('/') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/about" class="<?= urlIs('/about') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="/notes" class="<?= urlIs('/notes') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Notes</a>
+                        <a href="/contact" class="<?= urlIs('/contact') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                        <a href="/registration/create" class="<?= urlIs('/registration/create') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Register</a>
                     </div>
                 </div>
             </div>
