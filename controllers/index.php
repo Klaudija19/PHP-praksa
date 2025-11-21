@@ -1,8 +1,14 @@
 <?php
 
-$heading = "Home";
+// Start session if needed
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-view('index.view.php', [
-    'heading' => $heading
+view('index', [
+    'heading' => 'Home'
 ]);
+
+
+
 

@@ -1,52 +1,52 @@
-<nav class="bg-gray-800">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between">
-            <div class="flex items-center">
-                <div class="shrink-0">
-                    <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-8" />
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="/" class="<?= urlIs('/') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                        <a href="/about" class="<?= urlIs('/about') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="/notes" class="<?= urlIs('/notes') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Notes</a>
-                        <a href="/contact" class="<?= urlIs('/contact') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-                        <a href="/registration/create" class="<?= urlIs('/registration/create') ? 'bg-gray-900 text-white': 'text-gray-300' ?> hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Register</a>
-                    </div>
-                </div>
-            </div>
-            <div class="hidden md:block">
-                <div class="ml-4 flex items-center md:ml-6">
-                    <button type="button" class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <span class="sr-only">View notifications</span>
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
-                        </svg>
-                    </button>
+<nav class="bg-gray-800 text-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16 items-center">
 
-                    <!-- Profile dropdown -->
-                    <div class="relative ml-3">
-                        <button id="user-menu-button" class="relative flex max-w-xs items-center rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                            <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                        </button>
-
-                        <!-- Dropdown menu -->
-                        <div id="dropdown-menu" class="absolute right-0 z-10 mt-2 w-48 origin-top-right hidden rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="-mr-2 flex md:hidden">
-                <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+            <!-- Left section -->
+            <div class="flex items-center space-x-8">
+                <!-- Blue-purple wavy logo -->
+                <a href="/" class="text-2xl font-bold" style="color: #7c3aed;">
+                    <svg width="32" height="24" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 12C2 12 6 8 10 8C14 8 18 12 22 12C26 12 30 8 30 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M2 16C2 16 6 12 10 12C14 12 18 16 22 16C26 16 30 12 30 12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
                     </svg>
-                </button>
+                </a>
+
+                <a href="/" class="hover:text-gray-300">Home</a>
+                <a href="/about" class="hover:text-gray-300">About</a>
+                <a href="/notes" class="hover:text-gray-300">Notes</a>
+                <a href="/contact" class="hover:text-gray-300">Contact</a>
             </div>
+
+            <!-- Right side: Login / Register -->
+            <div class="flex items-center space-x-6">
+
+                <?php if (!isset($_SESSION['user'])): ?>
+                    <!-- Bell icon -->
+                    <svg class="w-5 h-5 hover:text-gray-300 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                    <a href="/login" class="hover:text-gray-300">Login</a>
+                    <a href="/registration/create" class="px-4 py-2 rounded" style="background-color: #7c3aed; color: white;" onmouseover="this.style.backgroundColor='#6d28d9'" onmouseout="this.style.backgroundColor='#7c3aed'">
+                        Register
+                    </a>
+                <?php else: ?>
+                    <!-- Bell icon -->
+                    <svg class="w-5 h-5 hover:text-gray-300 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                    <span class="text-gray-300">
+                        <?= htmlspecialchars($_SESSION['user']['email']) ?>
+                    </span>
+
+                    <form action="/logout" method="POST">
+                        <button class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+                            Logout
+                        </button>
+                    </form>
+                <?php endif; ?>
+            </div>
+
         </div>
     </div>
 </nav>

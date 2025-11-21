@@ -3,37 +3,37 @@
 use core\Container;
 use core\App;
 
-// Define base path constant (normalize path separators for Windows compatibility)
-define('BASE_PATH', str_replace('\\', '/', __DIR__ . '/..'));
+// Define BASE_PATH only if not defined
+if (!defined('BASE_PATH')) {
+    $basePath = realpath(__DIR__ . '/../');
+    define('BASE_PATH', $basePath ? $basePath : dirname(__DIR__));
+}
 
-// Load helper functions first
-require __DIR__ . '/functions.php';
+// Load helper functions
+require_once BASE_PATH . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'functions.php';
 
-// Autoload classes with namespace support
+// Autoload classes
 spl_autoload_register(function ($class) {
-    // Convert namespace separators to directory separators
     $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
     $file = basePath("{$class}.php");
+
     if (file_exists($file)) {
-        require $file;
+        require_once $file;
     }
 });
 
-// Initialize container
+// Initialize Container
 $container = new Container();
 
-// Load configuration
+// Load config
 $config = require basePath('config.php');
 
-// Bind services to container
+// Bind Database with correct config
 $container->bind('core\Database', function () use ($config) {
     return new \core\Database($config['database']);
 });
 
-$container->bind('core\Validator', function () {
-    return new \core\Validator();
-});
-
-// Set container in App class
+// Set container to App
 App::setContainer($container);
+
 

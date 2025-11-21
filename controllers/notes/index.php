@@ -1,15 +1,29 @@
 <?php
-session_start(); // секогаш прво на почетокот
-
 
 use core\App;
+use core\Database;
 
-$db = App::resolve('core\Database');
+// Start session if not started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-$heading = "Notes Dashboard";
-$notes = $db->query('SELECT * FROM notes WHERE user_id = 1')->get();
+// Get logged user
+if (!isset($_SESSION['user']['id'])) {
+    header("Location: /login");
+    exit;
+}
 
-view('notes/index.view.php', [
-    'heading' => $heading,
+$db = App::resolve(Database::class);
+
+$notes = $db->query(
+    "SELECT * FROM notes WHERE user_id = :uid ORDER BY id DESC",
+    ['uid' => $_SESSION['user']['id']]
+)->get();
+
+view("notes/index", [
+    'heading' => 'Your Notes',
     'notes' => $notes
 ]);
+
+

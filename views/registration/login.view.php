@@ -14,14 +14,21 @@
             </div>
 
             <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">
-                Register for a new account
+                Log in to your account
             </h2>
 
-            <form method="POST" action="/registration/create">
+            <form method="POST" action="/login">
                 <?php if (!empty($errors['email'])): ?>
-                    <p class="text-red-500 text-sm mb-2"><?= htmlspecialchars($errors['email']) ?></p>
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                        <p class="text-red-600 text-sm"><?= htmlspecialchars($errors['email']) ?></p>
+                        <?php if (strpos($errors['email'], "doesn't have a password") !== false): ?>
+                            <p class="text-red-600 text-sm mt-2">
+                                <a href="/registration/create" class="underline font-semibold">Click here to register and set your password</a>
+                            </p>
+                        <?php endif; ?>
+                    </div>
                 <?php endif; ?>
-                
+
                 <label class="block text-gray-700 font-semibold mb-1">Email address</label>
                 <input
                         type="email"
@@ -33,7 +40,9 @@
                 >
 
                 <?php if (!empty($errors['password'])): ?>
-                    <p class="text-red-500 text-sm mb-2"><?= htmlspecialchars($errors['password']) ?></p>
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                        <p class="text-red-600 text-sm"><?= htmlspecialchars($errors['password']) ?></p>
+                    </div>
                 <?php endif; ?>
 
                 <label class="block text-gray-700 font-semibold mb-1">Password</label>
@@ -48,7 +57,7 @@
                 <button
                         type="submit"
                         class="w-full accent-bg text-white p-3 rounded-lg text-lg font-semibold hover:bg-purple-700 transition">
-                    Register
+                    Login
                 </button>
             </form>
 
@@ -57,7 +66,4 @@
 </main>
 
 <?php require base_path('views/partials/footer.php'); ?>
-
-
-
 

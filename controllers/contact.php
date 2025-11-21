@@ -1,7 +1,10 @@
 <?php
 
-$heading = 'Contact Us';
+// Start session if needed
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-view('contact.view.php', [
-    'heading' => $heading
+view('contact', [
+    'heading' => 'Contact Us'
 ]);

@@ -1,79 +1,47 @@
-<?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+<?php require basePath("views/partials/head.php"); ?>
+<?php require basePath("views/partials/nav.php"); ?>
 
+<main class="bg-gray-200 min-h-screen py-10">
+    <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        
+        <h2 class="text-3xl font-bold mb-6 text-gray-800"><?= $heading ?? 'Your Notes' ?></h2>
 
-require basePath('views/partials/head.php');
-require basePath('views/partials/nav.php');
-require basePath('views/partials/banner.php');
-?>
+        <a href="/notes/create" class="inline-block accent-bg text-white px-6 py-3 rounded-lg mb-6 hover:bg-purple-700 transition">
+            Create New Note
+        </a>
 
-<main>
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-
-        <h1 class="text-2xl font-bold mb-6">Notes</h1>
-
-        <!-- Flash Messages -->
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="bg-green-200 text-green-800 p-3 rounded mb-4">
-                <?= $_SESSION['success']; ?>
+        <?php if (empty($notes)): ?>
+            <div class="bg-white rounded-lg p-8 text-center">
+                <p class="text-gray-600 text-lg">No notes yet. Create your first note!</p>
             </div>
-            <?php unset($_SESSION['success']); ?>
-        <?php endif; ?>
+        <?php else: ?>
+            <div class="grid gap-4">
+                <?php foreach ($notes as $note): ?>
+                    <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition">
+                        <p class="text-gray-800 mb-4 text-lg"><?= htmlspecialchars($note['body']) ?></p>
 
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="bg-red-200 text-red-800 p-3 rounded mb-4">
-                <?= $_SESSION['error']; ?>
-            </div>
-            <?php unset($_SESSION['error']); ?>
-        <?php endif; ?>
+                        <div class="flex gap-4 items-center">
+                            <a href="/note/<?= $note['id'] ?>" class="text-purple-600 hover:text-purple-700 font-semibold">
+                                View
+                            </a>
+                            <a href="/note/edit/<?= $note['id'] ?>" class="text-blue-600 hover:text-blue-700 font-semibold">
+                                Edit
+                            </a>
 
-        <!-- Листа на белешки -->
-        <ul class="space-y-4 mb-6">
-            <?php foreach ($notes as $note) : ?>
-                <li class="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow">
-
-                    <!-- Приказ на белешката -->
-                    <a href="/note/<?= $note['id'] ?>" class="text-blue-600 font-semibold hover:underline">
-                        <?= htmlspecialchars($note['body']) ?>
-                    </a>
-
-                    <!-- Копчиња Edit / Delete -->
-                    <div class="flex items-center space-x-3">
-
-                        <!-- EDIT -->
-                        <a href="/note/edit/<?= $note['id'] ?>"
-                           class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-                            Edit
-                        </a>
-
-                        <!-- DELETE -->
-                        <form method="POST" action="/notes/delete"
-                              onsubmit="return confirm('Are you sure you want to delete this note?')">
-                            <input type="hidden" name="id" value="<?= $note['id'] ?>">
-                            <button class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
-                                Delete
-                            </button>
-                        </form>
+                            <form method="POST" action="/notes/delete" class="inline-block">
+                                <input type="hidden" name="id" value="<?= $note['id'] ?>">
+                                <button type="submit" class="text-red-600 hover:text-red-700 font-semibold">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
-
-                </li>
-            <?php endforeach; ?>
-        </ul>
-
-        <!-- Линк за Create Note -->
-        <p>
-            <a href="/notes/create"
-               class="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
-                Create Note
-            </a>
-        </p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
 
     </div>
 </main>
 
-<?php
-require basePath('views/partials/footer.php');
-?>
+<?php require basePath("views/partials/footer.php"); ?>
 

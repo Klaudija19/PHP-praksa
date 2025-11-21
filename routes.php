@@ -4,31 +4,37 @@ use core\Router;
 
 $router = new Router();
 
-// GET routes
+// ==========================
+// PUBLIC ROUTES
+// ==========================
 $router->get('/', 'controllers/index.php');
 $router->get('/about', 'controllers/about.php');
-$router->get('/notes', 'controllers/notes/index.php');
-$router->get('/note/{id}', 'controllers/notes/show.php');
-$router->get('/note/edit/{id}', 'controllers/notes/edit.php');
-$router->get('/notes/create', 'controllers/notes/create.php');
 $router->get('/contact', 'controllers/contact.php');
 
-// Registration GET route
-$router->get('/registration/create', 'controllers/registration/create.php');
+// Authentication routes (guest only)
+$router->get('/login', 'controllers/registration/login.php', ['guest']);
+$router->post('/login', 'controllers/registration/login.php', ['guest']);
+$router->get('/registration/create', 'controllers/registration/create.php', ['guest']);
+$router->post('/registration/create', 'controllers/registration/create.php', ['guest']);
+$router->get('/logout', 'controllers/registration/logout.php', ['auth']);
+$router->post('/logout', 'controllers/registration/logout.php', ['auth']);
 
-// POST routes
-$router->post('/notes', 'controllers/notes/store.php');
-$router->post('/update', 'controllers/notes/update.php');
-$router->post('/notes/delete', 'controllers/notes/delete.php');
+// ==========================
+// NOTES (AUTH REQUIRED)
+// ==========================
+$router->get('/notes', 'controllers/notes/index.php', ['auth']);
+$router->get('/note/{id}', 'controllers/notes/show.php', ['auth']);
+$router->get('/note/edit/{id}', 'controllers/notes/edit.php', ['auth']);
+$router->get('/notes/create', 'controllers/notes/create.php', ['auth']);
 
-// Registration POST route
-$router->post('/registration/create', 'controllers/registration/create.php');
+// CRUD operations
+$router->post('/notes', 'controllers/notes/store.php', ['auth']);
+$router->post('/notes/delete', 'controllers/notes/delete.php', ['auth']);
+$router->patch('/note/{id}', 'controllers/notes/update.php', ['auth']);
+$router->delete('/note/{id}', 'controllers/notes/destroy.php', ['auth']);
 
-// PATCH routes
-$router->patch('/note/{id}', 'controllers/notes/update.php');
-
-// DELETE routes
-$router->delete('/note/{id}', 'controllers/notes/destroy.php');
-
+// Return the router instance
 return $router;
+
+
 

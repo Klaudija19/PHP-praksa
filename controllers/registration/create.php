@@ -1,59 +1,70 @@
 <?php
-session_start();
 
-require_once __DIR__ . '/../../core/Database.php';
+use core\App;
 use core\Database;
 
-$config = [
-    'host' => '127.0.0.1',
-    'dbname' => 'myapps',
-    'charset' => 'utf8mb4'
-];
-
-$db = new Database($config);
+$db = App::resolve(Database::class);
 
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name']);
+
     $email = trim($_POST['email']);
-    $password = $_POST['password'];
+    $password = trim($_POST['password']);
 
-    // Валидација
-    if (!$name) {
-        $errors['name'] = 'Name is required';
-    }
-    if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = 'Valid email is required';
-    }
-    if (!$password || strlen($password) < 6) {
-        $errors['password'] = 'Password must be at least 6 characters';
+    // Validate
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = "Invalid email format.";
     }
 
-    // Проверка дали email постои
-    $db->query("SELECT * FROM app_users WHERE email = :email", ['email' => $email]);
-    $existingUser = $db->find();
-
-    if ($existingUser) {
-        $errors['email'] = 'Email is already registered';
+    if (strlen($password) < 4) {
+        $errors['password'] = "Password must be at least 4 characters.";
     }
 
+    // Check if email exists
+    $user = $db->query(
+        "SELECT * FROM app_users WHERE email = :email",
+        ['email' => $email]
+    )->find();
+
+    // If no errors → create or update account
     if (empty($errors)) {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        if ($user) {
+            // User exists but may not have password - update it
+            if (empty($user['password'])) {
+                // Update existing user with password
+                $db->query(
+                    "UPDATE app_users SET password = :password WHERE email = :email",
+                    [
+                        'email' => $email,
+                        'password' => password_hash($password, PASSWORD_DEFAULT)
+                    ]
+                );
+            } else {
+                // User already has password
+                $errors['email'] = "This email is already registered. Please login instead.";
+            }
+        } else {
+            // Create new user
+            $db->query(
+                "INSERT INTO app_users (email, password) VALUES (:email, :password)",
+                [
+                    'email' => $email,
+                    'password' => password_hash($password, PASSWORD_DEFAULT)
+                ]
+            );
+        }
 
-        // Внесување во базата
-        $db->query("INSERT INTO app_users (name, email, password) VALUES (:name, :email, :password)", [
-            'name' => $name,
-            'email' => $email,
-            'password' => $hashedPassword
-        ]);
-
-        $_SESSION['success'] = "User successfully registered!";
-        header('Location: /registration/create');
-        exit;
+        // Redirect only if no errors
+        if (empty($errors)) {
+            header("Location: /login");
+            exit;
+        }
     }
 }
 
-// Приказ на view
-view('registration/create.view.php', ['errors' => $errors]);
+// VIEW
+require basePath("views/registration/create.view.php");
+
+
 

@@ -1,30 +1,28 @@
 <?php
-session_start(); // секогаш прво на почетокот
-
 
 use core\App;
+use core\Database;
 
-$db = App::resolve('core\Database');
+$db = App::resolve(Database::class);
 
-$heading = 'Edit Note';
-$currentUserId = 1;
+$id = $params['id'];
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$note = $db->query(
+    "SELECT * FROM notes WHERE id = :id",
+    ['id' => $id]
+)->findOrFail();
 
-// Fetch the note by ID
-$note = $db->query('SELECT * FROM notes WHERE id = :id', [
-    'id' => $id
-])->findOrFail();
+authorize($note['user_id'] === $_SESSION['user']['id']);
 
-// Authorize the current user
-authorize($note['user_id'] === $currentUserId);
-
-// Pass the note data to the edit view
-view('notes/edit.view.php', [
-    'heading' => $heading,
-    'note' => $note,
-    'errors' => $errors ?? []
+view("notes/edit", [
+    'heading' => 'Edit Note',
+    'note' => $note
 ]);
+
+
+
+
+
 
 
 

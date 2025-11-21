@@ -1,48 +1,67 @@
 <?php
 
-function basePath($path)
+// Normalize base directory path
+function basePath($path = '')
 {
-    // Normalize path separators for Windows compatibility
-    if (!defined('BASE_PATH')) {
-        define('BASE_PATH', str_replace('\\', '/', __DIR__ . '/..'));
-    }
-    $base = str_replace('\\', '/', BASE_PATH);
-    $path = str_replace('\\', '/', $path);
-    return $base . '/' . $path;
+    $basePath = rtrim(BASE_PATH, '/\\' . DIRECTORY_SEPARATOR);
+    $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, ltrim($path, '/\\'));
+    return $basePath . DIRECTORY_SEPARATOR . $path;
 }
 
+// Compatibility alias (ако кодот користи base_path())
+function base_path($path = '')
+{
+    return basePath($path);
+}
+
+// Render a view from /views
 function view($path, $attributes = [])
 {
-    extract($attributes);
-    require basePath("views/{$path}");
-}
+    extract($attributes); // Makes array keys available as variables
 
-function dd($value)
-{
-    echo '<pre>';
-    var_dump($value);
-    echo '</pre>';
-    die();
-}
-
-function urlIs($value) {
-    return $_SERVER['REQUEST_URI'] === $value;
-}
-
-function abort($code = \core\Response::NOT_FOUND) {
-    http_response_code($code);
+    // Remove .view.php extension if already present
+    $path = preg_replace('/\.view\.php$/', '', $path);
     
-    if ($code === \core\Response::FORBIDDEN) {
-        require basePath('views/403.php');
-    } else {
-        require basePath('views/404.php');
+    // Remove .php extension if present
+    $path = preg_replace('/\.php$/', '', $path);
+    
+    $filePath = basePath("views/{$path}.view.php");
+
+    if (!file_exists($filePath)) {
+        error_log("View not found: {$filePath}");
+        abort(404);
     }
-    
-    die();
+
+    require $filePath;
 }
 
-function authorize($condition, $status = \core\Response::FORBIDDEN) {
-    if (! $condition){
+// Redirect helper
+function redirect($path)
+{
+    header("Location: {$path}");
+    exit;
+}
+
+// Abort helper
+function abort($code = 404)
+{
+    http_response_code($code);
+
+    $file = basePath("views/{$code}.php");
+
+    if (file_exists($file)) {
+        require $file;
+    } else {
+        echo "<h1>Error {$code}</h1>";
+    }
+
+    exit;
+}
+
+// Authorization helper
+function authorize($condition, $status = 403)
+{
+    if (!$condition) {
         abort($status);
     }
 }
