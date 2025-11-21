@@ -12,3 +12,4 @@ ADD COLUMN IF NOT EXISTS `password` VARCHAR(255) NULL AFTER `email`;
 -- ALTER TABLE `app_users` MODIFY `name` VARCHAR(255) NULL;
 
 
+
