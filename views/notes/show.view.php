@@ -1,51 +1,43 @@
-<?php require basePath("views/partials/head.php"); ?>
-<?php require basePath("views/partials/nav.php"); ?>
-<?php
-$noteTitle = trim($note['body']);
-if ($noteTitle === '') {
-    $displayTitle = 'Untitled Note';
-} elseif (function_exists('mb_strimwidth')) {
-    $displayTitle = mb_strimwidth($noteTitle, 0, 60, '...');
-} else {
-    $displayTitle = strlen($noteTitle) > 60 ? substr($noteTitle, 0, 57) . '...' : $noteTitle;
-}
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Note</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
 
-<main class="bg-gray-200 min-h-screen py-10">
-    <div class="max-w-4xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-lg p-8 shadow-sm">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <p class="text-sm text-gray-500">Note #<?= htmlspecialchars($note['id']) ?></p>
-                    <h2 class="text-3xl font-bold text-gray-800 mt-1">
-                        <?= htmlspecialchars($displayTitle) ?>
-                    </h2>
-                </div>
+        h1 {
+            text-align: center;
+        }
 
-                <div class="flex gap-3">
-                    <a href="/note/edit/<?= $note['id'] ?>" class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
-                        Edit
-                    </a>
-                    <form method="POST" action="/notes/delete">
-                        <input type="hidden" name="id" value="<?= $note['id'] ?>">
-                        <button type="submit" class="px-5 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition">
-                            Delete
-                        </button>
-                    </form>
-                </div>
-            </div>
+        p {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
 
-            <div class="prose max-w-none text-gray-800 leading-relaxed">
-                <?= nl2br(htmlspecialchars($note['body'])) ?>
-            </div>
+<div class="container">
+    <h1>Note Details</h1>
 
-            <div class="mt-8">
-                <a href="/notes" class="text-purple-600 hover:text-purple-700 font-semibold">
-                    ← Back to Notes
-                </a>
-            </div>
-        </div>
+    <p><?= htmlspecialchars($note['body']) ?></p>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="/notes">Back to notes</a>
+        <a href="/note/edit/<?= $note['id'] ?>">Edit</a>
+        <form action="/notes/delete" method="POST" style="display:inline;">
+            <input type="hidden" name="id" value="<?= $note['id'] ?>">
+            <button type="submit" style="background:red; color:white; border:none; padding:5px 10px; cursor:pointer;">Delete</button>
+        </form>
     </div>
-</main>
+</div>
 
-<?php require basePath("views/partials/footer.php"); ?>
+</body>
+</html>
