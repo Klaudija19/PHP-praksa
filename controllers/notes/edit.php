@@ -5,19 +5,26 @@ use core\Database;
 
 $db = App::resolve(Database::class);
 
-$id = $params['id'];
+// земи го ID-то од URL
+$id = $_GET['id'] ?? null;
 
-$note = $db->query(
-    "SELECT * FROM notes WHERE id = :id",
-    ['id' => $id]
-)->findOrFail();
+if (!$id) {
+    die("❌ Missing note ID.");
+}
 
-authorize($note['user_id'] === $_SESSION['user']['id']);
+// fetch белешката од базата
+$note = $db->query("SELECT * FROM notes WHERE id = :id", ['id' => $id])->fetch();
 
-view("notes/edit", [
-    'heading' => 'Edit Note',
+if (!$note) {
+    die("❌ Note not found.");
+}
+
+// прати ја белешката во view
+view('notes/edit.view.php', [
     'note' => $note
 ]);
+
+
 
 
 

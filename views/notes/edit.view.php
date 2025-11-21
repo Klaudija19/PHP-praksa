@@ -1,39 +1,76 @@
-<?php require basePath("views/partials/head.php"); ?>
-<?php require basePath("views/partials/nav.php"); ?>
-<?php $errors = $errors ?? []; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Note</title>
+    <style>
+        form {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
 
-<main class="bg-gray-200 min-h-screen py-10">
-    <div class="max-w-3xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-lg p-8 shadow-sm">
-            <h2 class="text-3xl font-bold mb-6 text-gray-800">Edit Note</h2>
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
 
-            <form method="POST" action="/note/<?= $note['id'] ?>" class="space-y-4">
-                <input type="hidden" name="_method" value="PATCH">
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
 
-                <label class="block text-gray-700 font-semibold">Note Content</label>
-                <textarea
-                        name="body"
-                        rows="8"
-                        class="w-full border-2 border-gray-300 rounded-lg p-4 focus:outline-none focus:border-purple-600 transition"><?= htmlspecialchars($note['body']) ?></textarea>
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-                <?php if (!empty($errors['body'])): ?>
-                    <p class="text-red-500 text-sm"><?= htmlspecialchars($errors['body']) ?></p>
-                <?php endif; ?>
+        button:hover {
+            background: #45a049;
+        }
 
-                <div class="flex gap-4">
-                    <button type="submit" class="accent-bg text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
-                        Update Note
-                    </button>
-                    <a href="/notes" class="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
-                        Cancel
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
-</main>
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
 
-<?php require basePath("views/partials/footer.php"); ?>
+<h1 style="text-align:center;">Edit Note</h1>
+
+<form action="/notes/update" method="POST">
+    <!-- Hidden field за ID -->
+    <input type="hidden" name="id" value="<?= $note['id'] ?? '' ?>">
+
+    <label>Body:</label>
+    <textarea name="body" required><?= htmlspecialchars($note['body'] ?? '') ?></textarea>
+
+    <button type="submit">Update</button>
+</form>
+
+<div style="text-align:center;">
+    <a href="/notes">Back to notes</a>
+</div>
+
+</body>
+</html>
+
+
+
 
 
 

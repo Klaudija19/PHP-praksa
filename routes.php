@@ -30,11 +30,15 @@ $router->get('/notes/create', 'controllers/notes/create.php', ['auth']);
 // CRUD operations
 $router->post('/notes', 'controllers/notes/store.php', ['auth']);
 $router->post('/notes/delete', 'controllers/notes/delete.php', ['auth']);
-$router->patch('/note/{id}', 'controllers/notes/update.php', ['auth']);
+
+// ✅ POST route за update (со body)
+$router->post('/notes/update', 'controllers/notes/update.php', ['auth']);
+
 $router->delete('/note/{id}', 'controllers/notes/destroy.php', ['auth']);
 
 // Return the router instance
 return $router;
+
 
 
 
